@@ -9,15 +9,15 @@
 }
 
 #container {
-  display: block;
+  display: flex;
+  flex-wrap: wrap;
   margin: auto;
-  width: 511px;
-  height: 512px;
+  width: 510px;
+  height: 510px;
 }
 .pixel {
-  display: inline-block;
   height: 100px;
   width: 100px;
   margin-top: 0;
   border: 1px solid black;
-}
+} 
