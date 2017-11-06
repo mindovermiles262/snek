@@ -1,0 +1,23 @@
+* {
+  background-color: darkolivegreen;
+}
+
+.header {
+  text-align: center;
+  color: goldenrod;
+  margin: auto;
+}
+
+#container {
+  display: block;
+  margin: auto;
+  width: 511px;
+  height: 512px;
+}
+.pixel {
+  display: inline-block;
+  height: 100px;
+  width: 100px;
+  margin-top: 0;
+  border: 1px solid black;
+}
