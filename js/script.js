@@ -45,11 +45,22 @@ function tailDock([x,y]) {
   divs[divLoc].style.backgroundColor = "var(--bg-color)"
 }
 
+function checkCollide(snake) {
+  headLoc = snake.pop()
+  snake.forEach(function(ele) {
+    if (JSON.stringify(ele) === JSON.stringify(headLoc)) {
+      alert("You Lose!")
+    }
+  })
+  snake.push(headLoc)
+}
+
 function moveRight(snake) {
   headLoc = snake[snake.length-1]
   snake.push([headLoc[0], headLoc[1] + 1])
   printSnake(snake)
   tailDock(snake.shift())
+  checkCollide(snake);
 }
 
 function moveLeft(snake) {
@@ -57,6 +68,7 @@ function moveLeft(snake) {
   snake.push([headLoc[0], headLoc[1] - 1])
   printSnake(snake)
   tailDock(snake.shift())
+  checkCollide(snake);
 }
 
 function moveUp(snake) {
@@ -64,6 +76,7 @@ function moveUp(snake) {
   snake.push([headLoc[0] - 1, headLoc[1]])
   printSnake(snake)
   tailDock(snake.shift())
+  checkCollide(snake);
 }
 
 function moveDown(snake) {
@@ -71,14 +84,16 @@ function moveDown(snake) {
   snake.push([headLoc[0] + 1, headLoc[1]])
   printSnake(snake)
   tailDock(snake.shift())
+  checkCollide(snake);
 }
 
 // Run game
 function game() {
   initGrid(rowsInGrid, columnsInGrid)
+  let gameOver = false;
   let snake = [[7,1], [7,2], [7,3], [7,4], [7,5]]
   printSnake(snake)
-  document.addEventListener("keydown", function(event) {
+  document.addEventListener("keydown", function(event) { 
     if (event.keyCode == 37) {
       moveLeft(snake)
     } else if (event.keyCode == 38) {
