@@ -46,13 +46,19 @@ function tailDock([x,y]) {
 }
 
 function checkCollide(snake) {
+  let endGame = false;
   headLoc = snake.pop()
   snake.forEach(function(ele) {
     if (JSON.stringify(ele) === JSON.stringify(headLoc)) {
-      alert("You Lose!")
+      console.log("You Lose!")
+      endGame = true;
     }
   })
-  snake.push(headLoc)
+  if (endGame === false) {
+    snake.push(headLoc)
+  } else {
+    return true
+  }
 }
 
 function moveRight(snake) {
@@ -60,7 +66,7 @@ function moveRight(snake) {
   snake.push([headLoc[0], headLoc[1] + 1])
   printSnake(snake)
   tailDock(snake.shift())
-  checkCollide(snake);
+  return checkCollide(snake);
 }
 
 function moveLeft(snake) {
@@ -68,7 +74,7 @@ function moveLeft(snake) {
   snake.push([headLoc[0], headLoc[1] - 1])
   printSnake(snake)
   tailDock(snake.shift())
-  checkCollide(snake);
+  return checkCollide(snake);
 }
 
 function moveUp(snake) {
@@ -76,7 +82,7 @@ function moveUp(snake) {
   snake.push([headLoc[0] - 1, headLoc[1]])
   printSnake(snake)
   tailDock(snake.shift())
-  checkCollide(snake);
+  return checkCollide(snake);
 }
 
 function moveDown(snake) {
@@ -84,7 +90,22 @@ function moveDown(snake) {
   snake.push([headLoc[0] + 1, headLoc[1]])
   printSnake(snake)
   tailDock(snake.shift())
-  checkCollide(snake);
+  return checkCollide(snake);
+}
+
+function move(snake) {
+  if (direction === "r") {
+    return moveRight(snake)
+  } else if (direction == "l") {
+    return moveLeft(snake)
+  } else if (direction == 'u') {
+    return moveUp(snake)
+  } else if (direction == 'd') {
+    return moveDown(snake)
+  } else if (direction == "quit") {
+    console.log("Quit")
+    return true;
+  }
 }
 
 // Run game
@@ -95,15 +116,24 @@ function game() {
   printSnake(snake)
   document.addEventListener("keydown", function(event) { 
     if (event.keyCode == 37) {
-      moveLeft(snake)
+      direction = "l"
     } else if (event.keyCode == 38) {
-      moveUp(snake)
+      direction = "u"
     } else if (event.keyCode == 39) {
-      moveRight(snake)
+      direction = "r"
     } else if (event.keyCode == 40) {
-      moveDown(snake)
+      direction = "d"
+    } else {
+      direction = "quit"
     }
   }, false)
+  run = setInterval(function() {
+    gameOver = move(snake)
+    console.log(gameOver)
+    if (gameOver === true) {
+      clearInterval(run)
+    }
+  }, 1000);
 }
 
 game()
