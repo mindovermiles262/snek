@@ -1,5 +1,6 @@
 * {
-  background-color: darkolivegreen;
+  --bg-color: darkolivegreen;
+  background-color: var(--bg-color)
 }
 
 .header {

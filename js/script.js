@@ -4,10 +4,11 @@ const pixel = document.createElement("div")
 const rowsInGrid = 15;
 const columnsInGrid = 15;
 const pixelSize = 15;
+let direction = "r"
 grid = {}
 
 // Initializes Empty Grid to Screen
-let initGrid = function(rows, columns) {
+function initGrid(rows, columns) {
   // Set container size based on .pixel width
   widthCalculation = (pixelSize * columns) + (columns * 2)
   container.style.width = widthCalculation + "px"
@@ -29,20 +30,65 @@ let initGrid = function(rows, columns) {
 }
 
 // Changes background color of .pixel based on x,y pair (x[0] is top row)
-let printSnake = function([x,y]) {
-  let divLoc = ((rowsInGrid * x) + y)
+function printSnake(snake) {
+  snake.forEach(function([x,y]) {
+    let divLoc = ((rowsInGrid * x) + y)
+    let divs = document.getElementsByClassName("pixel")
+    divs[divLoc].style.backgroundColor = "goldenrod"
+  })
+}
+
+// Remove last node of snake
+function tailDock([x,y]) {
+  let divLoc = ((rowsInGrid * x) + y);
   let divs = document.getElementsByClassName("pixel")
-  divs[divLoc].style.backgroundColor = "goldenrod"
+  divs[divLoc].style.backgroundColor = "var(--bg-color)"
+}
+
+function moveRight(snake) {
+  headLoc = snake[snake.length-1]
+  snake.push([headLoc[0], headLoc[1] + 1])
+  printSnake(snake)
+  tailDock(snake.shift())
+}
+
+function moveLeft(snake) {
+  headLoc = snake[snake.length - 1]
+  snake.push([headLoc[0], headLoc[1] - 1])
+  printSnake(snake)
+  tailDock(snake.shift())
+}
+
+function moveUp(snake) {
+  headLoc = snake[snake.length - 1];
+  snake.push([headLoc[0] - 1, headLoc[1]])
+  printSnake(snake)
+  tailDock(snake.shift())
+}
+
+function moveDown(snake) {
+  headLoc = snake[snake.length-1];
+  snake.push([headLoc[0] + 1, headLoc[1]])
+  printSnake(snake)
+  tailDock(snake.shift())
 }
 
 // Run game
-let game = function() {
+function game() {
   initGrid(rowsInGrid, columnsInGrid)
-  let snake = [[7,2], [7,3], [7,4]]
-
-  snake.forEach(function(loc) {
-    printSnake(loc)
-  })
+  let snake = [[7,1], [7,2], [7,3], [7,4], [7,5]]
+  printSnake(snake)
+  document.addEventListener("keydown", function(event) {
+    if (event.keyCode == 37) {
+      moveLeft(snake)
+    } else if (event.keyCode == 38) {
+      moveUp(snake)
+    } else if (event.keyCode == 39) {
+      moveRight(snake)
+    } else if (event.keyCode == 40) {
+      moveDown(snake)
+    }
+  }, false)
 }
 
 game()
