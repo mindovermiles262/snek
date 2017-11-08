@@ -50,7 +50,7 @@ function checkCollide(snake) {
   headLoc = snake.pop()
   snake.forEach(function(ele) {
     if (JSON.stringify(ele) === JSON.stringify(headLoc)) {
-      console.log("You Lose!")
+      alert("You Lose!")
       endGame = true;
     }
   })
@@ -129,9 +129,9 @@ function game() {
   }, false)
   run = setInterval(function() {
     gameOver = move(snake)
-    console.log(gameOver)
     if (gameOver === true) {
       clearInterval(run)
+      console.log("Game Over")
     }
   }, 1000);
 }
