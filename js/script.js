@@ -1,28 +1,48 @@
-let container = document.getElementById("container")
-let pixel = document.createElement("div")
+// Initialize Vars
+const container = document.getElementById("container")
+const pixel = document.createElement("div")
+const rowsInGrid = 15;
+const columnsInGrid = 15;
+const pixelSize = 15;
+grid = {}
 
-let grid = {
-  row0: ["1", "0", "0", "0", "0"],
-  row1: ["0", "0", "0", "0", "0"],
-  row2: ["0", "0", "1", "0", "0"],
-  row3: ["0", "0", "0", "1", "0"],
-  row4: ["0", "0", "0", "0", "1"],
-}
-// Object.keys(grid).length => 5
+// Initializes Empty Grid to Screen
+let initGrid = function(rows, columns) {
+  // Set container size based on .pixel width
+  widthCalculation = (pixelSize * columns) + (columns * 2)
+  container.style.width = widthCalculation + "px"
 
-let putGrid = function(x, y) {
-  for (i=0; i < x; i++) {
-    let row = "row" + i
-    grid[row].forEach(function(element, index) {
-      if (grid[row][index] === "0") {
-        let pixel = container.appendChild(document.createElement("div"))
-        pixel.className = "pixel"
-        pixel.style.backgroundColor = "goldenrod"
-      } else {
-        container.appendChild(document.createElement("div")).className = "pixel"
-      }
+  // Make grid
+  for (i=0; i < rows; i++) {
+    let currentRow = "row" + i
+    grid[currentRow] = new Array(columns).fill("0")
+    grid[currentRow].forEach(function(element, index) {
+      container.appendChild(document.createElement("div")).className = "pixel"
     })
   }
+
+  // Set Pixel width and Height
+  document.querySelectorAll(".pixel").forEach(function(p) {
+    p.style.width = pixelSize + "px";
+    p.style.height = pixelSize + "px"
+  })
 }
 
-putGrid(5, 5)
+// Changes background color of .pixel based on x,y pair (x[0] is top row)
+let printSnake = function([x,y]) {
+  let divLoc = ((rowsInGrid * x) + y)
+  let divs = document.getElementsByClassName("pixel")
+  divs[divLoc].style.backgroundColor = "goldenrod"
+}
+
+// Run game
+let game = function() {
+  initGrid(rowsInGrid, columnsInGrid)
+  let snake = [[7,2], [7,3], [7,4]]
+
+  snake.forEach(function(loc) {
+    printSnake(loc)
+  })
+}
+
+game()
