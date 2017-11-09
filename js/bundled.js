@@ -95,7 +95,8 @@ function game() {
   __WEBPACK_IMPORTED_MODULE_1__gameplay_js__["d" /* initGrid */](rowsInGrid, columnsInGrid)
   let gameOver = false;
   let snake = [[7,1], [7,2], [7,3], [7,4], [7,5]]
-  __WEBPACK_IMPORTED_MODULE_0__movement_js__["b" /* printSnake */](snake)
+  __WEBPACK_IMPORTED_MODULE_0__movement_js__["c" /* printSnake */](snake)
+  __WEBPACK_IMPORTED_MODULE_0__movement_js__["b" /* newNugget */]()
   document.addEventListener("keydown", function(event) { 
     if (event.keyCode == 37) {
       direction = "l"
@@ -208,8 +209,10 @@ function gameExit(interval) {
 /* unused harmony export moveUp */
 /* unused harmony export moveDown */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return move; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return printSnake; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return printSnake; });
 /* unused harmony export tailDock */
+/* unused harmony export printNugget */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return newNugget; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_js__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__gameplay_js__ = __webpack_require__(1);
 
@@ -273,6 +276,15 @@ function printSnake(snake) {
     let divs = document.getElementsByClassName("pixel")
     divs[divLoc].style.backgroundColor = "goldenrod"
   })
+}
+
+function newNugget() {
+  let nugRow = Math.floor(Math.random() * __WEBPACK_IMPORTED_MODULE_0__main_js__["rowsInGrid"]);
+  let nugCol = Math.floor(Math.random() * __WEBPACK_IMPORTED_MODULE_0__main_js__["columnsInGrid"]);
+  let divLoc = (nugRow * __WEBPACK_IMPORTED_MODULE_0__main_js__["columnsInGrid"]) + nugCol
+  let divs = document.getElementsByClassName("pixel")
+  divs[divLoc].style.backgroundColor = "red";
+  return [nugRow, nugCol]
 }
 
 // Remove last node of snake

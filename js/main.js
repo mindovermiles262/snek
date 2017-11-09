@@ -18,6 +18,7 @@ function game() {
   let gameOver = false;
   let snake = [[7,1], [7,2], [7,3], [7,4], [7,5]]
   movement.printSnake(snake)
+  movement.newNugget()
   document.addEventListener("keydown", function(event) { 
     if (event.keyCode == 37) {
       direction = "l"
