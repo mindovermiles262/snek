@@ -1,4 +1,4 @@
-import { pixelSize, grid } from './main.js'
+import { pixelSize, grid, columnsInGrid, rowsInGrid } from './main.js'
 
 // Initializes Empty Grid to Screen
 function initGrid(rows, columns) {
@@ -22,7 +22,7 @@ function initGrid(rows, columns) {
   })
 }
 
-function checkCollide(snake) {
+function checkCollideTail(snake) {
   let endGame = false;
   let headLoc = snake.pop()
   snake.forEach(function (ele) {
@@ -37,10 +37,28 @@ function checkCollide(snake) {
   }
 }
 
+function checkCollideWall(snake) {
+  let headLoc = snake.pop()
+  if (headLoc[1] == columnsInGrid) {
+    console.log("You ran into the right wall")
+    return true
+  } else if (headLoc[1] < 0) {
+    console.log("You ran into the left wall")
+    return true
+  } else if (headLoc[0] < 0) {
+    console.log("You ran into the top wall")
+    return true
+  } else if (headLoc[0] == rowsInGrid) {
+    console.log("You ran into the bottom wall")
+    return true
+  }
+  snake.push(headLoc)
+}
+
 function gameExit(interval) {
   clearInterval(interval)
   document.getElementById("gameover").innerText = "Game Over"
   console.log("Game Over")
 }
 
-export { checkCollide, gameExit, initGrid };
+export { checkCollideTail, checkCollideWall, gameExit, initGrid };

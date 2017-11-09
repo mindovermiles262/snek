@@ -70,6 +70,7 @@
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "direction", function() { return direction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "columnsInGrid", function() { return columnsInGrid; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rowsInGrid", function() { return rowsInGrid; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pixelSize", function() { return pixelSize; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "grid", function() { return grid; });
@@ -85,12 +86,13 @@ const rowsInGrid = 15;
 const columnsInGrid = 15;
 const pixelSize = 15;
 let direction = "r"
-let moveSpeed = 705
+let moveSpeed = 400
 let grid = {}
 
 // Run game
 function game() {
-  __WEBPACK_IMPORTED_MODULE_1__gameplay_js__["c" /* initGrid */](rowsInGrid, columnsInGrid)
+  // Initialize Game
+  __WEBPACK_IMPORTED_MODULE_1__gameplay_js__["d" /* initGrid */](rowsInGrid, columnsInGrid)
   let gameOver = false;
   let snake = [[7,1], [7,2], [7,3], [7,4], [7,5]]
   __WEBPACK_IMPORTED_MODULE_0__movement_js__["b" /* printSnake */](snake)
@@ -107,10 +109,12 @@ function game() {
       direction = "quit"
     }
   }, false)
+
+  // Run Game
   let run = setInterval(function() {
     gameOver = __WEBPACK_IMPORTED_MODULE_0__movement_js__["a" /* move */](snake)
     if (gameOver === true) {
-      __WEBPACK_IMPORTED_MODULE_1__gameplay_js__["b" /* gameExit */](run)
+      __WEBPACK_IMPORTED_MODULE_1__gameplay_js__["c" /* gameExit */](run)
     }
   }, moveSpeed);
 }
@@ -124,9 +128,10 @@ game()
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return checkCollide; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return gameExit; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return initGrid; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return checkCollideTail; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return checkCollideWall; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return gameExit; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return initGrid; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_js__ = __webpack_require__(0);
 
 
@@ -152,7 +157,7 @@ function initGrid(rows, columns) {
   })
 }
 
-function checkCollide(snake) {
+function checkCollideTail(snake) {
   let endGame = false;
   let headLoc = snake.pop()
   snake.forEach(function (ele) {
@@ -165,6 +170,24 @@ function checkCollide(snake) {
   } else {
     return true
   }
+}
+
+function checkCollideWall(snake) {
+  let headLoc = snake.pop()
+  if (headLoc[1] == __WEBPACK_IMPORTED_MODULE_0__main_js__["columnsInGrid"]) {
+    console.log("You ran into the right wall")
+    return true
+  } else if (headLoc[1] < 0) {
+    console.log("You ran into the left wall")
+    return true
+  } else if (headLoc[0] < 0) {
+    console.log("You ran into the top wall")
+    return true
+  } else if (headLoc[0] == __WEBPACK_IMPORTED_MODULE_0__main_js__["rowsInGrid"]) {
+    console.log("You ran into the bottom wall")
+    return true
+  }
+  snake.push(headLoc)
 }
 
 function gameExit(interval) {
@@ -195,33 +218,37 @@ function gameExit(interval) {
 function moveRight(snake) {
   let headLoc = snake[snake.length - 1]
   snake.push([headLoc[0], headLoc[1] + 1])
+  if (Object(__WEBPACK_IMPORTED_MODULE_1__gameplay_js__["b" /* checkCollideWall */])(snake) == true) { return true }
   printSnake(snake)
   tailDock(snake.shift())
-  return Object(__WEBPACK_IMPORTED_MODULE_1__gameplay_js__["a" /* checkCollide */])(snake);
+  return Object(__WEBPACK_IMPORTED_MODULE_1__gameplay_js__["a" /* checkCollideTail */])(snake);
 }
 
 function moveLeft(snake) {
   let headLoc = snake[snake.length - 1]
   snake.push([headLoc[0], headLoc[1] - 1])
+  if (Object(__WEBPACK_IMPORTED_MODULE_1__gameplay_js__["b" /* checkCollideWall */])(snake) == true) { return true }
   printSnake(snake)
   tailDock(snake.shift())
-  return Object(__WEBPACK_IMPORTED_MODULE_1__gameplay_js__["a" /* checkCollide */])(snake);
+  return Object(__WEBPACK_IMPORTED_MODULE_1__gameplay_js__["a" /* checkCollideTail */])(snake);
 }
 
 function moveUp(snake) {
   let headLoc = snake[snake.length - 1];
   snake.push([headLoc[0] - 1, headLoc[1]])
+  if (Object(__WEBPACK_IMPORTED_MODULE_1__gameplay_js__["b" /* checkCollideWall */])(snake) == true) { return true }
   printSnake(snake)
   tailDock(snake.shift())
-  return Object(__WEBPACK_IMPORTED_MODULE_1__gameplay_js__["a" /* checkCollide */])(snake);
+  return Object(__WEBPACK_IMPORTED_MODULE_1__gameplay_js__["a" /* checkCollideTail */])(snake);
 }
 
 function moveDown(snake) {
   let headLoc = snake[snake.length - 1];
   snake.push([headLoc[0] + 1, headLoc[1]])
+  if (Object(__WEBPACK_IMPORTED_MODULE_1__gameplay_js__["b" /* checkCollideWall */])(snake) == true) { return true }
   printSnake(snake)
   tailDock(snake.shift())
-  return Object(__WEBPACK_IMPORTED_MODULE_1__gameplay_js__["a" /* checkCollide */])(snake);
+  return Object(__WEBPACK_IMPORTED_MODULE_1__gameplay_js__["a" /* checkCollideTail */])(snake);
 }
 
 function move(snake) {

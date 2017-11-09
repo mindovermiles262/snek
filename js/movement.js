@@ -1,36 +1,40 @@
 import { direction, rowsInGrid } from './main.js';
-import { checkCollide as checkCollide } from './gameplay.js' 
+import { checkCollideTail as checkCollideTail, checkCollideWall as checkCollideWall } from './gameplay.js' 
 
 function moveRight(snake) {
   let headLoc = snake[snake.length - 1]
   snake.push([headLoc[0], headLoc[1] + 1])
+  if (checkCollideWall(snake) == true) { return true }
   printSnake(snake)
   tailDock(snake.shift())
-  return checkCollide(snake);
+  return checkCollideTail(snake);
 }
 
 function moveLeft(snake) {
   let headLoc = snake[snake.length - 1]
   snake.push([headLoc[0], headLoc[1] - 1])
+  if (checkCollideWall(snake) == true) { return true }
   printSnake(snake)
   tailDock(snake.shift())
-  return checkCollide(snake);
+  return checkCollideTail(snake);
 }
 
 function moveUp(snake) {
   let headLoc = snake[snake.length - 1];
   snake.push([headLoc[0] - 1, headLoc[1]])
+  if (checkCollideWall(snake) == true) { return true }
   printSnake(snake)
   tailDock(snake.shift())
-  return checkCollide(snake);
+  return checkCollideTail(snake);
 }
 
 function moveDown(snake) {
   let headLoc = snake[snake.length - 1];
   snake.push([headLoc[0] + 1, headLoc[1]])
+  if (checkCollideWall(snake) == true) { return true }
   printSnake(snake)
   tailDock(snake.shift())
-  return checkCollide(snake);
+  return checkCollideTail(snake);
 }
 
 function move(snake) {

@@ -8,11 +8,12 @@ const rowsInGrid = 15;
 const columnsInGrid = 15;
 const pixelSize = 15;
 let direction = "r"
-let moveSpeed = 705
+let moveSpeed = 400
 let grid = {}
 
 // Run game
 function game() {
+  // Initialize Game
   gameplay.initGrid(rowsInGrid, columnsInGrid)
   let gameOver = false;
   let snake = [[7,1], [7,2], [7,3], [7,4], [7,5]]
@@ -30,6 +31,8 @@ function game() {
       direction = "quit"
     }
   }, false)
+
+  // Run Game
   let run = setInterval(function() {
     gameOver = movement.move(snake)
     if (gameOver === true) {
@@ -40,4 +43,4 @@ function game() {
 
 game()
 
-export { direction, rowsInGrid, pixelSize, grid };
+export { direction, columnsInGrid, rowsInGrid, pixelSize, grid };
