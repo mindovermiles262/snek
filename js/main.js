@@ -8,7 +8,7 @@ const rowsInGrid = 15;
 const columnsInGrid = 15;
 const pixelSize = 15;
 let direction = "r"
-let moveSpeed = 750
+let moveSpeed = 705
 let grid = {}
 
 // Run game
