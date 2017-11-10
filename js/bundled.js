@@ -82,9 +82,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 // Initialize Vars
 const container = document.getElementById("container")
 const pixel = document.createElement("div")
-const rowsInGrid = 15;
-const columnsInGrid = 15;
+const rowsInGrid = 8;
+const columnsInGrid = 8;
 const pixelSize = 15;
+let score = 0
 let direction = "r"
 let moveSpeed = 400
 let grid = {}
@@ -95,8 +96,8 @@ function game() {
   __WEBPACK_IMPORTED_MODULE_1__gameplay_js__["d" /* initGrid */](rowsInGrid, columnsInGrid)
   let gameOver = false;
   let snake = [[7,1], [7,2], [7,3], [7,4], [7,5]]
-  __WEBPACK_IMPORTED_MODULE_0__movement_js__["c" /* printSnake */](snake)
-  __WEBPACK_IMPORTED_MODULE_0__movement_js__["b" /* newNugget */]()
+  __WEBPACK_IMPORTED_MODULE_0__movement_js__["d" /* printSnake */](snake)
+  let nugget = __WEBPACK_IMPORTED_MODULE_0__movement_js__["c" /* newNugget */](snake)
   document.addEventListener("keydown", function(event) { 
     if (event.keyCode == 37) {
       direction = "l"
@@ -113,7 +114,12 @@ function game() {
 
   // Run Game
   let run = setInterval(function() {
-    gameOver = __WEBPACK_IMPORTED_MODULE_0__movement_js__["a" /* move */](snake)
+    gameOver = __WEBPACK_IMPORTED_MODULE_0__movement_js__["b" /* move */](snake)
+    let eat = __WEBPACK_IMPORTED_MODULE_0__movement_js__["a" /* eatNugget */](nugget, snake)
+    if (eat === true) {
+      snake.push(nugget)
+      nugget = __WEBPACK_IMPORTED_MODULE_0__movement_js__["c" /* newNugget */](snake)
+    }
     if (gameOver === true) {
       __WEBPACK_IMPORTED_MODULE_1__gameplay_js__["c" /* gameExit */](run)
     }
@@ -208,11 +214,12 @@ function gameExit(interval) {
 /* unused harmony export moveLeft */
 /* unused harmony export moveUp */
 /* unused harmony export moveDown */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return move; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return printSnake; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return move; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return printSnake; });
 /* unused harmony export tailDock */
 /* unused harmony export printNugget */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return newNugget; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return newNugget; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return eatNugget; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_js__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__gameplay_js__ = __webpack_require__(1);
 
@@ -278,13 +285,21 @@ function printSnake(snake) {
   })
 }
 
-function newNugget() {
+function newNugget(snake) {
   let nugRow = Math.floor(Math.random() * __WEBPACK_IMPORTED_MODULE_0__main_js__["rowsInGrid"]);
   let nugCol = Math.floor(Math.random() * __WEBPACK_IMPORTED_MODULE_0__main_js__["columnsInGrid"]);
   let divLoc = (nugRow * __WEBPACK_IMPORTED_MODULE_0__main_js__["columnsInGrid"]) + nugCol
   let divs = document.getElementsByClassName("pixel")
   divs[divLoc].style.backgroundColor = "red";
   return [nugRow, nugCol]
+}
+
+function eatNugget(nugLoc, snake) {
+  let headLoc = snake[snake.length - 1];
+  if (JSON.stringify(headLoc) == JSON.stringify(nugLoc)) {
+    console.log("EAT")
+    return true
+  }
 }
 
 // Remove last node of snake

@@ -1,4 +1,4 @@
-import { direction, rowsInGrid, columnsInGrid } from './main.js';
+import { direction, rowsInGrid, columnsInGrid, score } from './main.js';
 import { checkCollideTail as checkCollideTail, checkCollideWall as checkCollideWall } from './gameplay.js' 
 
 function moveRight(snake) {
@@ -61,13 +61,21 @@ function printSnake(snake) {
   })
 }
 
-function newNugget() {
+function newNugget(snake) {
   let nugRow = Math.floor(Math.random() * rowsInGrid);
   let nugCol = Math.floor(Math.random() * columnsInGrid);
   let divLoc = (nugRow * columnsInGrid) + nugCol
   let divs = document.getElementsByClassName("pixel")
   divs[divLoc].style.backgroundColor = "red";
   return [nugRow, nugCol]
+}
+
+function eatNugget(nugLoc, snake) {
+  let headLoc = snake[snake.length - 1];
+  if (JSON.stringify(headLoc) == JSON.stringify(nugLoc)) {
+    console.log("EAT")
+    return true
+  }
 }
 
 // Remove last node of snake
@@ -77,4 +85,4 @@ function tailDock([x, y]) {
   divs[divLoc].style.backgroundColor = "var(--bg-color)"
 }
 
-export{ moveRight, moveLeft, moveUp, moveDown, move, printSnake, tailDock, printNugget, newNugget };
+export{ moveRight, moveLeft, moveUp, moveDown, move, printSnake, tailDock, printNugget, newNugget, eatNugget };
