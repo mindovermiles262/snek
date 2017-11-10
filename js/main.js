@@ -7,7 +7,6 @@ const pixel = document.createElement("div")
 const rowsInGrid = 8;
 const columnsInGrid = 8;
 const pixelSize = 15;
-let score = 0
 let direction = "r"
 let moveSpeed = 400
 let grid = {}
@@ -17,6 +16,7 @@ function game() {
   // Initialize Game
   gameplay.initGrid(rowsInGrid, columnsInGrid)
   let gameOver = false;
+  let score = 0
   let snake = [[7,1], [7,2], [7,3], [7,4], [7,5]]
   movement.printSnake(snake)
   let nugget = movement.newNugget(snake)
@@ -37,8 +37,9 @@ function game() {
   // Run Game
   let run = setInterval(function() {
     gameOver = movement.move(snake)
-    let eat = movement.eatNugget(nugget, snake)
-    if (eat === true) {
+    let eat = movement.eatNugget(nugget, snake, score)
+    if (typeof eat === "number") {
+      score = eat
       snake.push(nugget)
       nugget = movement.newNugget(snake)
     }

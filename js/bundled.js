@@ -85,7 +85,6 @@ const pixel = document.createElement("div")
 const rowsInGrid = 8;
 const columnsInGrid = 8;
 const pixelSize = 15;
-let score = 0
 let direction = "r"
 let moveSpeed = 400
 let grid = {}
@@ -95,6 +94,7 @@ function game() {
   // Initialize Game
   __WEBPACK_IMPORTED_MODULE_1__gameplay_js__["d" /* initGrid */](rowsInGrid, columnsInGrid)
   let gameOver = false;
+  let score = 0
   let snake = [[7,1], [7,2], [7,3], [7,4], [7,5]]
   __WEBPACK_IMPORTED_MODULE_0__movement_js__["d" /* printSnake */](snake)
   let nugget = __WEBPACK_IMPORTED_MODULE_0__movement_js__["c" /* newNugget */](snake)
@@ -115,8 +115,9 @@ function game() {
   // Run Game
   let run = setInterval(function() {
     gameOver = __WEBPACK_IMPORTED_MODULE_0__movement_js__["b" /* move */](snake)
-    let eat = __WEBPACK_IMPORTED_MODULE_0__movement_js__["a" /* eatNugget */](nugget, snake)
-    if (eat === true) {
+    let eat = __WEBPACK_IMPORTED_MODULE_0__movement_js__["a" /* eatNugget */](nugget, snake, score)
+    if (typeof eat === "number") {
+      score = eat
       snake.push(nugget)
       nugget = __WEBPACK_IMPORTED_MODULE_0__movement_js__["c" /* newNugget */](snake)
     }
@@ -294,11 +295,12 @@ function newNugget(snake) {
   return [nugRow, nugCol]
 }
 
-function eatNugget(nugLoc, snake) {
+function eatNugget(nugLoc, snake, score) {
   let headLoc = snake[snake.length - 1];
   if (JSON.stringify(headLoc) == JSON.stringify(nugLoc)) {
-    console.log("EAT")
-    return true
+    let newScore = score + 10
+    document.getElementById("score").innerText = newScore
+    return newScore
   }
 }
 

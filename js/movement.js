@@ -70,11 +70,12 @@ function newNugget(snake) {
   return [nugRow, nugCol]
 }
 
-function eatNugget(nugLoc, snake) {
+function eatNugget(nugLoc, snake, score) {
   let headLoc = snake[snake.length - 1];
   if (JSON.stringify(headLoc) == JSON.stringify(nugLoc)) {
-    console.log("EAT")
-    return true
+    let newScore = score + 10
+    document.getElementById("score").innerText = newScore
+    return newScore
   }
 }
 
