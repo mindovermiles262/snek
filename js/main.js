@@ -4,8 +4,8 @@ import * as gameplay from './gameplay.js'
 // Initialize Vars
 const container = document.getElementById("container")
 const pixel = document.createElement("div")
-const rowsInGrid = 8;
-const columnsInGrid = 8;
+const rowsInGrid = 15;
+const columnsInGrid = 15;
 const pixelSize = 15;
 let direction = "r"
 let moveSpeed = 400

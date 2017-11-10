@@ -82,8 +82,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 // Initialize Vars
 const container = document.getElementById("container")
 const pixel = document.createElement("div")
-const rowsInGrid = 8;
-const columnsInGrid = 8;
+const rowsInGrid = 15;
+const columnsInGrid = 15;
 const pixelSize = 15;
 let direction = "r"
 let moveSpeed = 400
@@ -118,6 +118,7 @@ function game() {
     let eat = __WEBPACK_IMPORTED_MODULE_0__movement_js__["a" /* eatNugget */](nugget, snake, score)
     if (typeof eat === "number") {
       score = eat
+      console.log(moveSpeed)
       snake.push(nugget)
       nugget = __WEBPACK_IMPORTED_MODULE_0__movement_js__["c" /* newNugget */](snake)
     }
